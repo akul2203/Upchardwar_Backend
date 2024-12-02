@@ -32,20 +32,13 @@ public class ChatMessageService {
 	String chatid2 ="";
 	public List<ChatMessage> findChatMessages(String senderId, String recipientId) {
 		Optional<String> chatIdOptional = chatRoomService.getChatId(senderId, recipientId, false);
-
 		
 		String chatId = chatIdOptional.orElseThrow(() -> new RuntimeException("ChatId not found"));
- 
-		System.out.println(chatId+"-----------------------");
-		
+
 		List<ChatMessage> messages = repository.findBySenderIdAndRecipientId(senderId, recipientId);
-
-
 		if (!messages.isEmpty()) {
 			updateStatuses(senderId, recipientId, MessageStatus.DELIVERED);
 		}
-
-//		System.err.println();
 		return messages;
 	}
 
